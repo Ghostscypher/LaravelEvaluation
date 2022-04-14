@@ -14,7 +14,7 @@ class SendEmail extends Command
      * @var string
      */
     protected $signature = 'email:send
-                            {--website : Name or id of the website to send subscribers email}';
+                            {--website= : Name or Id of the website to send subscribers email}';
 
     /**
      * The console command description.
