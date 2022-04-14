@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
+use App\Events\PostUpdated;
 use App\Models\Post;
 use App\Models\Website;
 use Illuminate\Http\Request;
@@ -42,10 +44,13 @@ class PostController extends Controller
                 'description' => $request->description,
             ]);
         } catch (\Throwable $th) {
+            throw $th;
             Log::error($th);
 
-            return apiResponse(null, 500, ["An unknown error occurred while trying to create website."]);
+            return apiResponse(null, 500, ["An unknown error occurred while trying to create post."]);
         }
+
+        event(new PostCreated($post));
 
         return apiResponse($post, 200, [], "Post created");
     }
@@ -60,7 +65,7 @@ class PostController extends Controller
     {
         $post = $website->posts()->find($post_id);
 
-        if(!$post){
+        if (! $post) {
             return apiResponse(null, 404, ["Post not found."], "Not found");
         }
 
@@ -87,7 +92,7 @@ class PostController extends Controller
 
         $post = $website->posts()->find($post_id);
 
-        if(!$post){
+        if (! $post) {
             return apiResponse(null, 404, ["Post not found."], "Not found");
         }
 
@@ -99,8 +104,10 @@ class PostController extends Controller
         } catch (\Throwable $th) {
             Log::error($th);
 
-            return apiResponse(null, 500, ["An unknown error occurred while trying to create website."]);
+            return apiResponse(null, 500, ["An unknown error occurred while trying to update post."]);
         }
+
+        event(new PostUpdated($post));
 
         return apiResponse($post, 200, [], "Post updated");
     }
@@ -115,7 +122,7 @@ class PostController extends Controller
     {
         $post = $website->posts()->find($post_id);
 
-        if(!$post){
+        if (! $post) {
             return apiResponse(null, 404, ["Post not found."], "Not found");
         }
 
@@ -124,7 +131,7 @@ class PostController extends Controller
         } catch (\Throwable $th) {
             Log::error($th);
 
-            return apiResponse(null, 500, ["An unknown error occurred while trying to create website."]);
+            return apiResponse(null, 500, ["An unknown error occurred while trying to delete post."]);
         }
 
         return apiResponse(null, 200, [], "Post deleted");

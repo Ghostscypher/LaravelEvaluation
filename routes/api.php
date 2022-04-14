@@ -34,8 +34,11 @@ Route::prefix('v1')->group(function() {
     Route::apiResource('websites.posts', PostController::class);
 
     Route::get('subscriptions', [SubscriptionController::class, 'index']);
-    Route::get('subscriptions/{user}', [SubscriptionController::class, 'getSubscriptions']);
-    Route::post('subscribe/{user}/website/{website}', [SubscriptionController::class, 'store']);
-    Route::post('unsubscribe/{user}/website/{website}', [SubscriptionController::class, 'destroy']);
+
+    Route::get('users/{user}/subscriptions', [SubscriptionController::class, 'getSubscriptions']);
+    Route::get('users/{user}/subscriptions/{subscription}', [SubscriptionController::class, 'show']);
+
+    Route::post('subscribe/users/{user}/websites/{website}', [SubscriptionController::class, 'store']);
+    Route::post('unsubscribe/users/{user}/websites/{website}', [SubscriptionController::class, 'destroy']);
 
 });

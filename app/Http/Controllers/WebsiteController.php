@@ -55,7 +55,7 @@ class WebsiteController extends Controller
      */
     public function show(Website $website)
     {
-        //
+        return apiResponse($website);
     }
 
     /**
@@ -96,6 +96,15 @@ class WebsiteController extends Controller
      */
     public function destroy(Website $website)
     {
-        //
+        try {
+            $website->delete();
+        } catch (\Throwable $th) {
+            throw $th;
+            Log::error($th);
+
+            return apiResponse(null, 500, ["An unknown error occurred while trying to delete the website."]);
+        }
+
+        return apiResponse(null, 200, [], "Website deleted");
     }
 }

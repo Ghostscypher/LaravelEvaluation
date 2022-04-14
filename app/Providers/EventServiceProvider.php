@@ -2,6 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\PostCreated;
+use App\Events\PostUpdated;
+use App\Events\UserSubscribed;
+use App\Events\UserUnsubscribed;
+use App\Listeners\SendGoodbyeEmail;
+use App\Listeners\SendPostEmail;
+use App\Listeners\SendWelcomeEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +24,18 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        UserSubscribed::class => [
+            SendWelcomeEmail::class,
+        ],
+        UserUnsubscribed::class => [
+            SendGoodbyeEmail::class,
+        ],
+        PostCreated::class => [
+            SendPostEmail::class,
+        ],
+        PostUpdated::class => [
+            // No listeners currently defined
         ],
     ];
 

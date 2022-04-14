@@ -38,7 +38,7 @@ class UserController extends Controller
         }
 
         try {
-             $user = User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make(Str::random()),
@@ -46,7 +46,7 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             Log::error($th);
 
-            return apiResponse(null, 500, ["An unknown error occurred while trying to create website."]);
+            return apiResponse(null, 500, ["An unknown error occurred while trying to create user."]);
         }
 
         return apiResponse($user, 200, [], "User created");
@@ -82,14 +82,14 @@ class UserController extends Controller
         }
 
         try {
-             $user->update([
+            $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
             ]);
         } catch (\Throwable $th) {
             Log::error($th);
 
-            return apiResponse(null, 500, ["An unknown error occurred while trying to create website."]);
+            return apiResponse(null, 500, ["An unknown error occurred while trying to update user."]);
         }
 
         return apiResponse($user, 200, [], "User updated");
@@ -105,11 +105,11 @@ class UserController extends Controller
     {
         try {
             $user->delete();
-       } catch (\Throwable $th) {
-           Log::error($th);
+        } catch (\Throwable $th) {
+            Log::error($th);
 
-           return apiResponse(null, 500, ["An unknown error occurred while trying to create website."]);
-       }
+            return apiResponse(null, 500, ["An unknown error occurred while trying to delete user."]);
+        }
 
         return apiResponse(null, 200, [], "User deleted");
     }

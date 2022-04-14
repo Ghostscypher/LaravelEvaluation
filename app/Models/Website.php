@@ -18,8 +18,8 @@ class Website extends Model
         return $this->hasMany(Post::class);
     }
 
-    public function users()
+    public function subscribers()
     {
-        return $this->hasManyThrough(User::class, Subscription::class);
+        return $this->belongsToMany(User::class, Subscription::class);
     }
 }

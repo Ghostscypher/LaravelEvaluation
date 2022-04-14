@@ -9,6 +9,11 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'website_id',
+        'user_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
